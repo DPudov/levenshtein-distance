@@ -1,14 +1,6 @@
 package levenshtein
 
-func allocateMatrix(rows, cols int) [][] int {
-	matrix := make([][] int, rows)
-	for i := range matrix {
-		matrix[i] = make([] int, cols)
-	}
-	return matrix
-}
-
-func LevenshteinIterative(first string, second string) int {
+func LevenshteinDamerau(first string, second string) int {
 	lenFirst := len(first)
 	lenSecond := len(second)
 	rows := lenFirst + 1
@@ -33,8 +25,13 @@ func LevenshteinIterative(first string, second string) int {
 			matrix[i][j] = MinThree(matrix[i-1][j]+1,
 				matrix[i][j-1]+1,
 				matrix[i-1][j-1]+add)
+
+			if i > 1 && j > 1 && first[i-1] == second[j-2] && first[i-2] == second[j-1] {
+				matrix[i][j] = Min(matrix[i][j], matrix[i-2][j-2]+add)
+			}
 		}
 	}
 	//PrintMatrix(matrix)
+	//PrintMatrixWithStrings(first, second, matrix)
 	return matrix[lenFirst][lenSecond]
 }

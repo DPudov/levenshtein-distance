@@ -27,3 +27,33 @@ func Max(a, b int) int {
 	}
 	return b
 }
+
+func PrintMatrix(matrix [][]int) {
+	for i := range matrix {
+		for j := range matrix[i] {
+			print(matrix[i][j], " ")
+		}
+		println()
+	}
+}
+
+func PrintMatrixWithStrings(first string, second string, matrix [][]int) {
+	print("s1/s2 ")
+	f := []rune(first)
+	s := []rune(second)
+	for i := range s {
+		print(string(s[i]), " ")
+	}
+	println()
+	for i := range matrix {
+		if i > 0 {
+			print(string(f[i-1]), "   ")
+		} else {
+			print("    ")
+		}
+		for j := range matrix[i] {
+			print(matrix[i][j], " ")
+		}
+		println()
+	}
+}

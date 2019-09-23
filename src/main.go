@@ -3,5 +3,9 @@ package main
 import "levenshtein-distance/levenshtein"
 
 func main() {
-    println(levenshtein.LevenshteinRecursive("3333333", "333"))
+	f := "12354"
+	s := "13245"
+	println(levenshtein.LevenshteinRecursive(f, s))
+	println(levenshtein.LevenshteinIterative(f, s))
+	println(levenshtein.LevenshteinDamerau(f, s))
 }
