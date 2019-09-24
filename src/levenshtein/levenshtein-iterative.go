@@ -8,7 +8,7 @@ func allocateMatrix(rows, cols int) [][] int {
 	return matrix
 }
 
-func LevenshteinIterative(first string, second string) int {
+func LevenshteinIterative(first string, second string) (int, [][]int) {
 	lenFirst := len(first)
 	lenSecond := len(second)
 	rows := lenFirst + 1
@@ -35,6 +35,6 @@ func LevenshteinIterative(first string, second string) int {
 				matrix[i-1][j-1]+add)
 		}
 	}
-	//PrintMatrix(matrix)
-	return matrix[lenFirst][lenSecond]
+
+	return matrix[lenFirst][lenSecond], matrix
 }

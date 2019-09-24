@@ -1,6 +1,6 @@
 package levenshtein
 
-func LevenshteinDamerau(first string, second string) int {
+func LevenshteinDamerau(first string, second string) (int, [][] int) {
 	lenFirst := len(first)
 	lenSecond := len(second)
 	rows := lenFirst + 1
@@ -31,7 +31,6 @@ func LevenshteinDamerau(first string, second string) int {
 			}
 		}
 	}
-	//PrintMatrix(matrix)
-	//PrintMatrixWithStrings(first, second, matrix)
-	return matrix[lenFirst][lenSecond]
+
+	return matrix[lenFirst][lenSecond], matrix
 }
