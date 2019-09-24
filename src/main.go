@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"levenshtein-distance/levenshtein"
 	"os"
@@ -12,21 +13,22 @@ const (
 	visualize = "visualize"
 )
 
-func takeInputString() string {
+func takeInputString(in *bufio.Reader) string {
 	fmt.Println("Please input string:")
-	var result string
-	_, err := fmt.Scanln(&result)
+	result, err := in.ReadString('\n')
 	for err != nil {
 		fmt.Println("Incorrect input. Try again...")
-		_, err = fmt.Scanln(&result)
+		result, err = in.ReadString('\n')
 	}
+	result = result[:len(result)-1]
 	return result
 }
 
-func handleOnce(visualize bool) {
-	first := takeInputString()
-	second := takeInputString()
+func handleOnce(visualize bool, in *bufio.Reader) {
+	first := takeInputString(in)
+	second := takeInputString(in)
 	fmt.Println("Result is...")
+	fmt.Println("Strings:", first, second)
 	recursive := levenshtein.LevenshteinRecursive(first, second)
 	iterative, matrixIt := levenshtein.LevenshteinIterative(first, second)
 	damerau, matrixDa := levenshtein.LevenshteinDamerau(first, second)
@@ -41,9 +43,9 @@ func handleOnce(visualize bool) {
 	}
 }
 
-func handleMany(visualize bool) {
+func handleMany(visualize bool, in *bufio.Reader) {
 	for {
-		handleOnce(visualize)
+		handleOnce(visualize, in)
 	}
 }
 
@@ -56,23 +58,25 @@ func printUsage() {
 
 func main() {
 	argsWithoutProgram := os.Args[1:]
+	in := bufio.NewReader(os.Stdin)
+
 	l := len(argsWithoutProgram)
 	if l > 0 {
 		z := argsWithoutProgram[0]
 		if l > 1 {
 			f := argsWithoutProgram[1]
 			if z == once && f == visualize {
-				handleOnce(true)
+				handleOnce(true, in)
 			} else if z == many && f == visualize {
-				handleMany(true)
+				handleMany(true, in)
 			} else {
 				printUsage()
 			}
 		} else {
 			if z == once {
-				handleOnce(false)
+				handleOnce(false, in)
 			} else if z == many {
-				handleMany(false)
+				handleMany(false, in)
 			} else {
 				printUsage()
 			}
@@ -80,4 +84,5 @@ func main() {
 	} else {
 		printUsage()
 	}
+
 }
