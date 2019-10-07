@@ -7,6 +7,128 @@
 
 \section{Листинг кода}
 
+В данном разделе приведены листинги реализаций ранее указанных алгоритмов на языке Go.
+
+\lstset{language=Golang}
+\begin{lstlisting}
+func LevenshteinDamerau(first string, second string) (int, [][] int) {
+	lenFirst := len(first)
+	lenSecond := len(second)
+	rows := lenFirst + 1
+	cols := lenSecond + 1
+	matrix := allocateMatrix(rows, cols)
+
+	for i := 0; i < rows; i++ {
+		matrix[i][0] = i
+	}
+	for i := 1; i < cols; i++ {
+		matrix[0][i] = i
+	}
+
+	add := 0
+	for j := 1; j < cols; j++ {
+		for i := 1; i < rows; i++ {
+			if first[i-1] == second[j-1] {
+				add = 0
+			} else {
+				add = 1
+			}
+			matrix[i][j] = MinThree(matrix[i-1][j]+1,
+				matrix[i][j-1]+1,
+				matrix[i-1][j-1]+add)
+
+			if i > 1 && j > 1 && first[i-1] == second[j-2] && first[i-2] == second[j-1] {
+				matrix[i][j] = Min(matrix[i][j], matrix[i-2][j-2]+add)
+			}
+		}
+	}
+
+	return matrix[lenFirst][lenSecond], matrix
+}
+\end{lstlisting}
+
+\begin{lstlisting}
+func LevenshteinIterative(first string, second string) (int, [][]int) {
+	lenFirst := len(first)
+	lenSecond := len(second)
+	rows := lenFirst + 1
+	cols := lenSecond + 1
+	matrix := allocateMatrix(rows, cols)
+
+	for i := 0; i < rows; i++ {
+		matrix[i][0] = i
+	}
+	for i := 1; i < cols; i++ {
+		matrix[0][i] = i
+	}
+
+	add := 0
+	for j := 1; j < cols; j++ {
+		for i := 1; i < rows; i++ {
+			if first[i-1] == second[j-1] {
+				add = 0
+			} else {
+				add = 1
+			}
+			matrix[i][j] = MinThree(matrix[i-1][j]+1,
+				matrix[i][j-1]+1,
+				matrix[i-1][j-1]+add)
+		}
+	}
+
+	return matrix[lenFirst][lenSecond], matrix
+}
+\end{lstlisting}
+
+\begin{lstlisting}
+func LevenshteinRecursive(first string, second string) int {
+    lenFirst := len(first)
+    lenSecond := len(second)
+    if Min(lenFirst, lenSecond) == 0 {
+        return Max(lenFirst, lenSecond)
+    } else {
+        add := 1
+        if first[lenFirst-1] == second[lenSecond-1] {
+            add = 0
+        }
+
+        return MinThree(
+            LevenshteinRecursive(first[:lenFirst-1], second)+1,
+            LevenshteinRecursive(first, second[:lenSecond-1])+1,
+            LevenshteinRecursive(first[:lenFirst-1], second[:lenSecond-1])+add)
+    }
+}
+\end{lstlisting}
+
+\begin{lstlisting}
+func levenshteinRecursiveModule(first, second string, result, minval int) int {
+	lenFirst := len(first)
+	lenSecond := len(second)
+	if result >= minval {
+		return minval
+	} else if lenFirst == 0 {
+		return result +lenSecond
+	} else if lenSecond == 0 {
+		return result + lenFirst
+	} else {
+		add := 1
+		if first[lenFirst-1] == second[lenSecond-1] {
+			add = 0
+		}
+		r1 := levenshteinRecursiveModule(first[:lenFirst-1], second[:lenSecond-1], result+add, minval)
+		r2 := levenshteinRecursiveModule(first, second[:lenSecond-1], result+1, Min(r1, minval))
+		r3 := levenshteinRecursiveModule(first[:lenFirst-1], second, result+1, MinThree(r1, r2, minval))
+		return MinThree(r1, r2, r3)
+	}
+}
+
+func LevenshteinRecursiveOptimized(first string, second string) int {
+	minval := Max(len(first), len(second))
+	result := 0
+	return levenshteinRecursiveModule(first, second, result, minval)
+}
+\end{lstlisting}
+
 \section{Описание тестирования}
 % описать, какие тесты будут проведены
 
