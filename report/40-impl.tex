@@ -1,16 +1,24 @@
 \chapter{Технологическая часть}
 \label{cha:impl}
 
+В данной части будет описан подход для программной реализации ранее указанных алгоритмов.
+
 \section{Требования к программному обеспечению}
 
+Разработанное ПО должно предоставлять возможность замеров процессорного времени
+выполнения каждого алгоритма. Требуется вводить 2 строки и выводить матрицу (кроме рекурсивной реализации) и значения расстояний, полученных различными реализациями.
+
 \section{Средства реализации}
+
+Для реализации ПО был выбран язык Go, поскольку в его основном пакете присутствуют
+удобные средства замера процессорного времени и памяти модуля testing.
 
 \section{Листинг кода}
 
 В данном разделе приведены листинги реализаций ранее указанных алгоритмов на языке Go.
 
 \lstset{language=Golang}
-\begin{lstlisting}
+\begin{lstlisting}[caption={Матричная версия алгоритма Дамерау-Левенштейна}]
 func LevenshteinDamerau(first string, second string) (int, [][] int) {
 	lenFirst := len(first)
 	lenSecond := len(second)
@@ -47,7 +55,7 @@ func LevenshteinDamerau(first string, second string) (int, [][] int) {
 }
 \end{lstlisting}
 
-\begin{lstlisting}
+\begin{lstlisting}[caption={Матричная реализация алгоритма Левенштейна}]
 func LevenshteinIterative(first string, second string) (int, [][]int) {
 	lenFirst := len(first)
 	lenSecond := len(second)
@@ -80,7 +88,7 @@ func LevenshteinIterative(first string, second string) (int, [][]int) {
 }
 \end{lstlisting}
 
-\begin{lstlisting}
+\begin{lstlisting}[caption={Рекурсивная версия алгоритма Левенштейна}]
 func LevenshteinRecursive(first string, second string) int {
     lenFirst := len(first)
     lenSecond := len(second)
@@ -100,7 +108,7 @@ func LevenshteinRecursive(first string, second string) int {
 }
 \end{lstlisting}
 
-\begin{lstlisting}
+\begin{lstlisting}[caption={Оптимизированная версия рекурсивного алгоритма Левенштейна}]
 func levenshteinRecursiveModule(first, second string, result, minval int) int {
 	lenFirst := len(first)
 	lenSecond := len(second)
@@ -132,7 +140,14 @@ func LevenshteinRecursiveOptimized(first string, second string) int {
 \section{Описание тестирования}
 % описать, какие тесты будут проведены
 
-
+Тестирование будет проведено для каждой из реализаций со следующими входными данными:
+\begin{itemize}
+	\item пустых строки;
+	\item идентичные строки;
+	\item строки одинаковой длины, но с разными символами;
+	\item строки различной длины, но отличных лишь в некотором числе вставок или удалений символа;
+	\item строки различной длины и требующих замены символа.
+\end{itemize}
 %%%% mode: latex
 %%%% TeX-master: "rpz"
 %%%% End:
