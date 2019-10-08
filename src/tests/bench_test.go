@@ -2,11 +2,8 @@ package tests
 
 import (
 	"levenshtein-distance/levenshtein"
-	"levenshtein-distance/measuring"
 	"levenshtein-distance/util"
-	"log"
 	"testing"
-	"time"
 )
 
 func benchmarkLevenshteinIterative(b *testing.B, count int) {
@@ -159,18 +156,18 @@ func BenchmarkLevenshteinDamerau1000(b *testing.B) {
 	benchmarkLevenshteinDamerau(b, 1000)
 }
 
-func TestLevenshteinRecursive(t *testing.T) {
-	defer measuring.ElapsedTime(time.Now(), "test")
-	first := util.RandomString(50)
-	second := util.RandomString(50)
-	//start := time.Now()
-	//r1 := levenshtein.LevenshteinRecursive(first, second)
-	//since := time.Since(start)
-	start2 := time.Now()
-	_ = levenshtein.LevenshteinRecursiveOptimized(first, second)
-	since2 := time.Since(start2)
-	//if r1 != r2 {
-	//	t.Error(r1, r2)
-	//}
-	log.Println("PASSED ",  since2)
-}
+//func TestLevenshteinRecursive(t *testing.T) {
+//	defer measuring.ElapsedTime(time.Now(), "test")
+//	first := util.RandomString(50)
+//	second := util.RandomString(50)
+//	//start := time.Now()
+//	//r1 := levenshtein.LevenshteinRecursive(first, second)
+//	//since := time.Since(start)
+//	start2 := time.Now()
+//	_ = levenshtein.LevenshteinRecursiveOptimized(first, second)
+//	since2 := time.Since(start2)
+//	//if r1 != r2 {
+//	//	t.Error(r1, r2)
+//	//}
+//	log.Println("PASSED ",  since2)
+//}
