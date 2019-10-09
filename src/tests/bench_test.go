@@ -11,6 +11,7 @@ func benchmarkLevenshteinIterative(b *testing.B, count int) {
 	first := util.RandomString(count)
 	second := util.RandomString(count)
 	b.StartTimer()
+	b.N = 100
 	for i := 0; i < b.N; i++ {
 		levenshtein.LevenshteinIterative(first, second)
 	}
@@ -21,9 +22,13 @@ func benchmarkLevenshteinRecursive(b *testing.B, count int) {
 	first := util.RandomString(count)
 	second := util.RandomString(count)
 	b.StartTimer()
+	b.N = 100
 	for i := 0; i < b.N; i++ {
 		levenshtein.LevenshteinRecursiveOptimized(first, second)
 	}
+}
+func BenchmarkLevenshteinRecursive12(b *testing.B) {
+	benchmarkLevenshteinRecursive(b, 12)
 }
 
 func benchmarkLevenshteinDamerau(b *testing.B, count int) {
@@ -31,9 +36,18 @@ func benchmarkLevenshteinDamerau(b *testing.B, count int) {
 	first := util.RandomString(count)
 	second := util.RandomString(count)
 	b.StartTimer()
+	b.N = 100
 	for i := 0; i < b.N; i++ {
 		levenshtein.LevenshteinDamerau(first, second)
 	}
+}
+
+func BenchmarkLevenshteinIterative12(b *testing.B) {
+	benchmarkLevenshteinIterative(b, 12)
+}
+
+func BenchmarkLevenshteinDamerau12(b *testing.B) {
+	benchmarkLevenshteinDamerau(b, 12)
 }
 
 func BenchmarkLevenshteinIterative100(b *testing.B) {
@@ -74,46 +88,6 @@ func BenchmarkLevenshteinIterative900(b *testing.B) {
 
 func BenchmarkLevenshteinIterative1000(b *testing.B) {
 	benchmarkLevenshteinIterative(b, 1000)
-}
-
-func BenchmarkLevenshteinRecursive100(b *testing.B) {
-	benchmarkLevenshteinRecursive(b, 100)
-}
-
-func BenchmarkLevenshteinRecursive200(b *testing.B) {
-	benchmarkLevenshteinRecursive(b, 200)
-}
-
-func BenchmarkLevenshteinRecursive300(b *testing.B) {
-	benchmarkLevenshteinRecursive(b, 300)
-}
-
-func BenchmarkLevenshteinRecursive400(b *testing.B) {
-	benchmarkLevenshteinRecursive(b, 400)
-}
-
-func BenchmarkLevenshteinRecursive500(b *testing.B) {
-	benchmarkLevenshteinRecursive(b, 500)
-}
-
-func BenchmarkLevenshteinRecursive600(b *testing.B) {
-	benchmarkLevenshteinRecursive(b, 600)
-}
-
-func BenchmarkLevenshteinRecursive700(b *testing.B) {
-	benchmarkLevenshteinRecursive(b, 700)
-}
-
-func BenchmarkLevenshteinRecursive800(b *testing.B) {
-	benchmarkLevenshteinRecursive(b, 800)
-}
-
-func BenchmarkLevenshteinRecursive900(b *testing.B) {
-	benchmarkLevenshteinRecursive(b, 900)
-}
-
-func BenchmarkLevenshteinRecursive1000(b *testing.B) {
-	benchmarkLevenshteinRecursive(b, 1000)
 }
 
 func BenchmarkLevenshteinDamerau100(b *testing.B) {
